@@ -1,0 +1,69 @@
+# 루트의 모든 항목을 기본적으로 무시
+*
+
+# 예외: Git에 포함할 대상 (앞의 !가 핵심)
+!/.gitignore
+!/index.html
+!/docs/
+!/docs/DesignGuideLine.md
+!/TMTforRunner/
+!/TMTforRunner/**
+
+# LoockingForMe 폴더 내부의 빌드/임시/비밀 파일 제외
+/TMTforRunner/**/.gradle/
+/TMTforRunner/**/build/
+/TMTforRunner/**/.cxx/
+/TMTforRunner/**/.idea/
+/TMTforRunner/**/*.iml
+/TMTforRunner/local.properties
+/TMTforRunner/**/*.jks
+/TMTforRunner/**/*.keystore
+/TMTforRunner/**/keystore.properties
+/TMTforRunner/**/google-services.json
+/TMTforRunner/**/*.apk
+/TMTforRunner/**/*.aab
+/TMTforRunner/**/*.aar
+/TMTforRunner/**/release/
+/TMTforRunner/**/*.hprof
+/TMTforRunner/app/src/main/assets/
+
+
+
+## Gradle / Build
+# .gradle/
+# LoockingForMe/.gradle/
+# build/
+# */build/
+# LoockingForMe/**/build/
+# .cxx/
+# */.cxx/
+# LoockingForMe/**/.cxx/
+# captures/
+# .externalNativeBuild/
+
+## Android Studio
+# .idea/
+# LoockingForMe/.idea/
+# *.iml
+# local.properties
+
+## Signing / secrets
+# *.jks
+# *.keystore
+# keystore.properties
+# google-services.json
+
+## Outputs
+# *.apk
+# *.aab
+# *.aar
+# release/
+# */release/
+# LoockingForMe/**/release/
+
+## OS
+# .DS_Store
+# Thumbs.db
+
+## assets
+# /LoockingForMe/app/src/main/assets/

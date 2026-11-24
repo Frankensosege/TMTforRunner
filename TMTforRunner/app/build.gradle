@@ -1,0 +1,117 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+//    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp' version '2.3.11'
+    alias(libs.plugins.kotlin.compose)
+}
+
+android {
+    namespace 'com.frankensosege.tmtforrunner'
+    compileSdk 36
+
+    defaultConfig {
+        applicationId "com.frankensosege.tmtforrunner"
+        minSdk 29
+        targetSdk 36
+        versionCode 14
+        versionName "1.2.5"
+    }
+
+    buildFeatures {
+        compose true
+        buildConfig true   // BuildConfig 클래스 자동 생성 활성화
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true        // R8 난독화·코드 축소 켜기 (핵심)
+            shrinkResources true      // 사용하지 않는 리소스 제거
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
+        }
+    }
+
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
+//
+//    kotlinOptions {
+//        jvmTarget = '1.8'
+//    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+    packagingOptions {
+        jniLibs {
+            pickFirsts += ['**/libkaldi-vosk.so', '**/libjnidispatch.so']
+        }
+    }
+    androidResources {
+        noCompress 'tflite', 'bin', 'txt', 'json'
+    }
+
+    // Vosk AAR 포함을 위해 필요 : 16KB 메모리 페이지 문제해결용
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
+    // Vosk 모델 파일은 압축하지 않아야 런타임에 정상 읽힘
+}
+
+dependencies {
+    // Compose BOM
+    def composeBom = platform('androidx.compose:compose-bom:2024.02.00')
+    implementation composeBom
+
+    implementation 'androidx.compose.ui:ui'
+    implementation 'androidx.compose.ui:ui-tooling-preview'
+    implementation 'androidx.compose.material3:material3'
+    implementation 'androidx.compose.runtime:runtime-livedata'
+    implementation 'androidx.activity:activity-compose:1.8.2'
+    implementation 'androidx.navigation:navigation-compose:2.7.6'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0'
+
+    debugImplementation 'androidx.compose.ui:ui-tooling'
+
+    // Core
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+
+    // Room
+    implementation 'androidx.room:room-runtime:2.7.1'
+    implementation 'androidx.room:room-ktx:2.7.1'
+    ksp 'androidx.room:room-compiler:2.7.1'
+
+    // MPAndroidChart (Compose용 래퍼)
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    // Lifecycle
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.7.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.7.0'
+
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
+
+    // Vosk 오프라인 음성인식 (Apache 2.0 — 상업 배포 무료)
+    implementation 'com.alphacephei:vosk-android:0.3.75'
+//    implementation group: 'com.alphacephei', name: 'vosk-android', version: '0.3.32+'
+
+    // AdMob 광고 SDK
+    implementation 'com.google.android.gms:play-services-ads:23.6.0'
+    implementation 'com.google.android.ump:user-messaging-platform:3.1.0'   // GDPR/개인정보 동의 처리 (필수)
+
+    // Play 인앱 업데이트
+    implementation 'com.google.android.play:app-update:2.1.0'
+    implementation 'com.google.android.play:app-update-ktx:2.1.0'
+
+}
+
